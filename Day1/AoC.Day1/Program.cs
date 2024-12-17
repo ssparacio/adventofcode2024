@@ -1,5 +1,7 @@
 ﻿
 
+using System.Runtime.Intrinsics.Arm;
+
 Console.WriteLine($"[{DateTime.Now.Second}:{DateTime.Now.Millisecond}] Starting ... ");
 
 
@@ -39,10 +41,40 @@ for (int i = 0; i < list1.Count; i++)
     totalD += d; 
 }
 
-Console.WriteLine($"[{DateTime.Now.Second}:{DateTime.Now.Millisecond}] Total Diff: {totalD} "); 
+Console.WriteLine($"[{DateTime.Now.Second}:{DateTime.Now.Millisecond}] Total Diff: {totalD} ");
 
 Console.WriteLine("");
 Console.WriteLine("");
+
+Console.WriteLine($"[{DateTime.Now.Second}:{DateTime.Now.Millisecond}]  Starting similarity score ");
+
+var ss = 0; 
+
+for (int i = 0; i < list1.Count; i++)
+{
+    var n = list1[i];
+
+    var uniques = list2.Where(x => x == n).Count();
+
+
+    var scoreBump = 0;
+
+    if (uniques > 0)
+    {
+        scoreBump = n * uniques;
+
+        Console.WriteLine($"[{DateTime.Now.Second}:{DateTime.Now.Millisecond}] n: {n} - uniques: {uniques} - scoreBump: {scoreBump}");
+
+        ss += scoreBump;
+    }
+}
+
+Console.WriteLine($"[{DateTime.Now.Second}:{DateTime.Now.Millisecond}] Sim Score: {ss} "); 
+
+    Console.WriteLine("");
+Console.WriteLine("");
+
+
 
 Console.WriteLine("... Press Any Key to Exit. "); 
 
@@ -53,6 +85,7 @@ Console.ReadLine();
 // 1709607  is too low. 11:00pm 
 // 2176849 That's the right answer! You are one gold star closer to finding the Chief Historian. 11:03pm!
 
+//Sim Score:: 23384288 Right! 11:15pm 
 
 
 static (List<int>, List<int>) ParseInput(string input)
